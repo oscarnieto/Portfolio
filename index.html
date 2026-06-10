@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iris Novak — Graphic Designer &amp; Art Director</title>
+  <meta name="description" content="Iris Novak is an independent graphic designer and art director crafting bold identities, editorial design and digital experiences. Based in Barcelona, working worldwide.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230E0E0C'/><circle cx='16' cy='16' r='8' fill='%23D4F93C'/></svg>">
+  <link rel="preload" href="fonts/syne-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/space-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <span class="preloader__name">Iris&nbsp;Novak</span>
+      <span class="preloader__count" id="preloaderCount">0</span>
+    </div>
+  </div>
+
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <span class="cursor__label" id="cursorLabel"></span>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <a href="#top" class="site-header__logo" data-cursor="hover">
+      <span class="logo-mark" aria-hidden="true"></span>IN<sup>©</sup>
+    </a>
+    <nav class="site-header__nav" aria-label="Primary">
+      <a href="#work" data-cursor="hover">Work</a>
+      <a href="#about" data-cursor="hover">About</a>
+      <a href="#services" data-cursor="hover">Services</a>
+      <a href="#contact" data-cursor="hover">Contact</a>
+    </nav>
+    <div class="site-header__meta">
+      <span class="dot dot--live" aria-hidden="true"></span>
+      <span>Barcelona&nbsp;·&nbsp;<span id="clock">00:00</span></span>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Fullscreen mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu__nav" aria-label="Mobile">
+      <a href="#work"><em>01</em>Work</a>
+      <a href="#about"><em>02</em>About</a>
+      <a href="#services"><em>03</em>Services</a>
+      <a href="#contact"><em>04</em>Contact</a>
+    </nav>
+    <div class="mobile-menu__foot">
+      <a href="mailto:hello@irisnovak.studio">hello@irisnovak.studio</a>
+      <span>Barcelona · <span id="clockMobile">00:00</span></span>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <canvas class="hero__canvas" id="webgl" aria-hidden="true"></canvas>
+      <div class="hero__grain" aria-hidden="true"></div>
+
+      <div class="hero__head">
+        <p class="hero__role" data-intro>Graphic Designer<br>&amp; Art Director</p>
+        <p class="hero__avail" data-intro>
+          <span class="dot dot--live" aria-hidden="true"></span>
+          Available for freelance<br>Spring — Summer ’26
+        </p>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__line"><span class="hero__line-inner" data-split>IRIS</span></span>
+        <span class="hero__line hero__line--offset">
+          <span class="hero__line-inner" data-split>NOVAK</span>
+          <span class="hero__badge" data-intro>★ Folio ’26</span>
+        </span>
+      </h1>
+
+      <div class="hero__foot">
+        <p class="hero__tag" data-intro>Designing loud identities<br>for quiet brands — and<br>the other way around.</p>
+        <a class="hero__scroll" href="#work" data-cursor="hover" data-intro>
+          <span>Scroll</span>
+          <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true">
+            <path d="M6 1v11M1 8l5 5 5-5" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marqueeTrack">
+        <span class="marquee__group">
+          Brand Identity <i>✦</i> Art Direction <i>✦</i> Editorial Design <i>✦</i> Type Design <i>✦</i> Packaging <i>✦</i> Motion <i>✦</i>&nbsp;
+        </span>
+      </div>
+    </div>
+
+    <!-- About -->
+    <section class="about" id="about">
+      <div class="section-head">
+        <span class="section-head__index">01</span>
+        <span class="section-head__label">About</span>
+      </div>
+      <p class="about__statement" id="aboutStatement">
+        I turn brand strategy into visual systems people actually remember.
+        Ten years of posters, identities and screens — built on type,
+        grids, and a healthy disrespect for both.
+      </p>
+      <div class="about__row">
+        <figure class="about__portrait" data-parallax>
+          <svg viewBox="0 0 400 500" role="img" aria-label="Abstract portrait composition">
+            <defs>
+              <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#d4f93c"/><stop offset="1" stop-color="#2a5a3a"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="#161613"/>
+            <circle cx="200" cy="210" r="130" fill="url(#pg1)"/>
+            <rect x="60" y="330" width="280" height="14" fill="#f2efe9"/>
+            <rect x="60" y="362" width="190" height="14" fill="#f2efe9" opacity=".5"/>
+            <circle cx="318" cy="108" r="26" fill="#ff5c38"/>
+          </svg>
+        </figure>
+        <div class="about__copy">
+          <p>
+            I’m Iris — an independent designer working between Barcelona and wherever
+            the project lives. I partner with founders, studios and cultural
+            institutions to build identities that survive contact with the real world:
+            airports, lockscreens, tote bags, 3&nbsp;a.m. pitch decks.
+          </p>
+          <p>
+            Previously design lead at Studio Rauw (AMS) and Otra (BCN).
+            My work has been recognised by ADC, D&amp;AD and the Type Directors Club.
+          </p>
+          <ul class="about__stats">
+            <li><strong data-counter="10">0</strong><span>Years of practice</span></li>
+            <li><strong data-counter="64">0</strong><span>Projects shipped</span></li>
+            <li><strong data-counter="12">0</strong><span>Design awards</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected work -->
+    <section class="works" id="work">
+      <div class="section-head">
+        <span class="section-head__index">02</span>
+        <span class="section-head__label">Selected Work <em>’21&nbsp;—&nbsp;’26</em></span>
+      </div>
+
+      <ul class="works__list" id="worksList">
+        <li class="work" data-work="0">
+          <a href="#contact" class="work__link" data-cursor="view">
+            <span class="work__index">001</span>
+            <h3 class="work__name">Mono Records</h3>
+            <span class="work__meta"><span>Identity · Packaging</span><span>2026</span></span>
+          </a>
+          <figure class="work__media" aria-hidden="true">
+            <svg viewBox="0 0 520 360">
+              <rect width="520" height="360" fill="#101010"/>
+              <circle cx="260" cy="180" r="120" fill="none" stroke="#d4f93c" stroke-width="26"/>
+              <circle cx="260" cy="180" r="58" fill="#d4f93c"/>
+              <circle cx="260" cy="180" r="10" fill="#101010"/>
+              <text x="36" y="320" font-family="Syne, sans-serif" font-weight="800" font-size="34" fill="#f2efe9">MONO®</text>
+            </svg>
+          </figure>
+        </li>
+        <li class="work" data-work="1">
+          <a href="#contact" class="work__link" data-cursor="view">
+            <span class="work__index">002</span>
+            <h3 class="work__name">Café Brut</h3>
+            <span class="work__meta"><span>Branding · Signage</span><span>2025</span></span>
+          </a>
+          <figure class="work__media" aria-hidden="true">
+            <svg viewBox="0 0 520 360">
+              <rect width="520" height="360" fill="#e8e2d6"/>
+              <rect x="60" y="60" width="400" height="240" fill="#7a3320"/>
+              <text x="92" y="160" font-family="Syne, sans-serif" font-weight="800" font-size="64" fill="#e8e2d6">CAFÉ</text>
+              <text x="92" y="240" font-family="Syne, sans-serif" font-weight="800" font-size="64" fill="#d4f93c">BRUT</text>
+              <circle cx="420" cy="100" r="18" fill="#e8e2d6"/>
+            </svg>
+          </figure>
+        </li>
+        <li class="work" data-work="2">
+          <a href="#contact" class="work__link" data-cursor="view">
+            <span class="work__index">003</span>
+            <h3 class="work__name">Ojo Festival</h3>
+            <span class="work__meta"><span>Art Direction · Motion</span><span>2024</span></span>
+          </a>
+          <figure class="work__media" aria-hidden="true">
+            <svg viewBox="0 0 520 360">
+              <defs>
+                <radialGradient id="wg3" cx=".5" cy=".5" r=".6">
+                  <stop offset="0" stop-color="#ff5c38"/><stop offset="1" stop-color="#1c1030"/>
+                </radialGradient>
+              </defs>
+              <rect width="520" height="360" fill="url(#wg3)"/>
+              <ellipse cx="260" cy="180" rx="150" ry="86" fill="none" stroke="#f2efe9" stroke-width="6"/>
+              <circle cx="260" cy="180" r="44" fill="#f2efe9"/>
+              <circle cx="260" cy="180" r="20" fill="#1c1030"/>
+              <text x="36" y="328" font-family="Syne, sans-serif" font-weight="800" font-size="30" fill="#f2efe9">OJO — 24</text>
+            </svg>
+          </figure>
+        </li>
+        <li class="work" data-work="3">
+          <a href="#contact" class="work__link" data-cursor="view">
+            <span class="work__index">004</span>
+            <h3 class="work__name">Norr Atelier</h3>
+            <span class="work__meta"><span>Identity · Editorial</span><span>2023</span></span>
+          </a>
+          <figure class="work__media" aria-hidden="true">
+            <svg viewBox="0 0 520 360">
+              <rect width="520" height="360" fill="#f2efe9"/>
+              <rect x="0" y="0" width="173" height="360" fill="#0e0e0c"/>
+              <rect x="347" y="0" width="173" height="360" fill="#0e0e0c"/>
+              <text x="260" y="205" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="84" fill="#0e0e0c">N—A</text>
+              <circle cx="260" cy="84" r="14" fill="#ff5c38"/>
+            </svg>
+          </figure>
+        </li>
+        <li class="work" data-work="4">
+          <a href="#contact" class="work__link" data-cursor="view">
+            <span class="work__index">005</span>
+            <h3 class="work__name">Liminal Type Co.</h3>
+            <span class="work__meta"><span>Type Design · Web</span><span>2022</span></span>
+          </a>
+          <figure class="work__media" aria-hidden="true">
+            <svg viewBox="0 0 520 360">
+              <rect width="520" height="360" fill="#d4f93c"/>
+              <text x="260" y="238" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="190" fill="#0e0e0c">Aa</text>
+              <rect x="36" y="36" width="120" height="10" fill="#0e0e0c"/>
+              <rect x="364" y="314" width="120" height="10" fill="#0e0e0c"/>
+            </svg>
+          </figure>
+        </li>
+      </ul>
+
+      <!-- Floating hover preview (desktop) -->
+      <div class="works__preview" id="worksPreview" aria-hidden="true">
+        <div class="works__preview-track" id="worksPreviewTrack"></div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+      <div class="section-head section-head--light">
+        <span class="section-head__index">03</span>
+        <span class="section-head__label">What I Do</span>
+      </div>
+      <ul class="services__list">
+        <li class="service">
+          <button class="service__head" aria-expanded="false" data-cursor="hover">
+            <span class="service__num">a.</span>
+            <h3>Brand Identity</h3>
+            <span class="service__plus" aria-hidden="true"></span>
+          </button>
+          <div class="service__body">
+            <p>Naming, logotypes, visual systems and guidelines that scale from a favicon
+            to a festival stage. Strategy first, decoration last.</p>
+          </div>
+        </li>
+        <li class="service">
+          <button class="service__head" aria-expanded="false" data-cursor="hover">
+            <span class="service__num">b.</span>
+            <h3>Art Direction</h3>
+            <span class="service__plus" aria-hidden="true"></span>
+          </button>
+          <div class="service__body">
+            <p>Campaigns, photoshoots and motion language. I set the visual world and
+            direct the people who bring it to life.</p>
+          </div>
+        </li>
+        <li class="service">
+          <button class="service__head" aria-expanded="false" data-cursor="hover">
+            <span class="service__num">c.</span>
+            <h3>Editorial &amp; Type</h3>
+            <span class="service__plus" aria-hidden="true"></span>
+          </button>
+          <div class="service__body">
+            <p>Books, magazines and custom typefaces. Grids you can feel,
+            letterforms with opinions.</p>
+          </div>
+        </li>
+        <li class="service">
+          <button class="service__head" aria-expanded="false" data-cursor="hover">
+            <span class="service__num">d.</span>
+            <h3>Digital Design</h3>
+            <span class="service__plus" aria-hidden="true"></span>
+          </button>
+          <div class="service__body">
+            <p>Sites and product surfaces designed with developers in the room —
+            so what ships looks like what was signed off.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contact / Footer -->
+    <footer class="contact" id="contact">
+      <p class="contact__kicker" data-intro-footer>Got a project, a brand,<br>or just a hunch?</p>
+      <a href="mailto:hello@irisnovak.studio" class="contact__cta" data-cursor="hover" data-magnetic>
+        <span class="contact__cta-line"><span data-split-footer>LET’S</span></span>
+        <span class="contact__cta-line contact__cta-line--accent"><span data-split-footer>TALK</span></span>
+      </a>
+      <div class="contact__grid">
+        <div>
+          <h4>Email</h4>
+          <a href="mailto:hello@irisnovak.studio" data-cursor="hover">hello@irisnovak.studio</a>
+        </div>
+        <div>
+          <h4>Socials</h4>
+          <a href="#contact" data-cursor="hover">Instagram</a>
+          <a href="#contact" data-cursor="hover">Behance</a>
+          <a href="#contact" data-cursor="hover">Are.na</a>
+        </div>
+        <div>
+          <h4>Studio</h4>
+          <p>Carrer de la Lluna 14<br>08001 Barcelona, ES</p>
+        </div>
+        <div>
+          <h4>Local time</h4>
+          <p><span id="clockFooter">00:00</span> CET</p>
+        </div>
+      </div>
+      <div class="contact__bottom">
+        <span>© 2026 Iris Novak. A fictional portfolio.</span>
+        <button class="to-top" id="toTop" data-cursor="hover">Back to top ↑</button>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
