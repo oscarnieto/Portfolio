@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project — Iris Novak</title>
+  <meta name="description" content="Case study — selected work by Iris Novak, graphic designer and art director.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230E0E0C'/><circle cx='16' cy='16' r='8' fill='%23D4F93C'/></svg>">
+  <link rel="preload" href="fonts/syne-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/space-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="pcase-body">
+
+  <!-- Page wipe -->
+  <div class="pcase-wipe" id="pageWipe" aria-hidden="true"></div>
+
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <span class="cursor__label" id="cursorLabel"></span>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="index.html" class="site-header__logo" data-cursor="hover">
+      <span class="logo-mark" aria-hidden="true"></span>IN<sup>©</sup>
+    </a>
+    <nav class="site-header__nav" aria-label="Primary">
+      <a href="index.html#work" data-cursor="hover">Work</a>
+      <a href="index.html#about" data-cursor="hover">About</a>
+      <a href="index.html#services" data-cursor="hover">Services</a>
+      <a href="index.html#contact" data-cursor="hover">Contact</a>
+    </nav>
+    <div class="site-header__meta">
+      <span class="dot dot--live" aria-hidden="true"></span>
+      <span>Barcelona&nbsp;·&nbsp;<span id="clock">00:00</span></span>
+    </div>
+    <a class="pcase-back" href="index.html#work" data-cursor="hover" aria-label="Back to index">←&nbsp;Index</a>
+  </header>
+
+  <main class="pcase">
+
+    <!-- Case hero -->
+    <section class="pcase-hero">
+      <p class="pcase-kicker" data-reveal>
+        <span id="caseIndex">001</span> — Case study
+      </p>
+      <h1 class="pcase-title">
+        <span class="pcase-title__line"><span class="pcase-title__inner" id="caseTitle">Mono</span></span>
+      </h1>
+      <div class="pcase-meta" id="caseMeta" data-reveal>
+        <div><h4>Client</h4><p id="metaClient">—</p></div>
+        <div><h4>Year</h4><p id="metaYear">—</p></div>
+        <div><h4>Role</h4><p id="metaRole">—</p></div>
+        <div><h4>Deliverables</h4><p id="metaTags">—</p></div>
+      </div>
+    </section>
+
+    <!-- Hero visual -->
+    <figure class="pcase-visual pcase-visual--hero" id="caseHeroArt" data-parallax-art></figure>
+
+    <!-- Brief -->
+    <section class="pcase-section">
+      <div class="section-head">
+        <span class="section-head__index">a</span>
+        <span class="section-head__label">The Brief</span>
+      </div>
+      <p class="pcase-statement" id="caseIntro"></p>
+    </section>
+
+    <!-- Gallery 1 -->
+    <figure class="pcase-visual" id="caseArt1" data-parallax-art></figure>
+
+    <!-- Approach -->
+    <section class="pcase-section">
+      <div class="section-head">
+        <span class="section-head__index">b</span>
+        <span class="section-head__label">The Work</span>
+      </div>
+      <div class="pcase-cols">
+        <p id="caseBody1"></p>
+        <p id="caseBody2"></p>
+      </div>
+    </section>
+
+    <!-- Gallery 2 -->
+    <figure class="pcase-visual" id="caseArt2" data-parallax-art></figure>
+
+    <!-- Next project -->
+    <footer class="pcase-next">
+      <p class="pcase-next__kicker" data-reveal>Next project</p>
+      <a class="pcase-next__link" id="nextLink" href="#" data-cursor="view">
+        <span class="pcase-next__line"><span class="pcase-next__inner" id="nextTitle">—</span></span>
+      </a>
+      <div class="contact__bottom">
+        <span>© 2026 Iris Novak. A fictional portfolio.</span>
+        <a class="to-top" href="index.html#work" data-cursor="hover">← All projects</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script src="js/project.js"></script>
+</body>
+</html>
