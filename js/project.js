@@ -131,13 +131,66 @@
     const fg = p.paper === "#0e0e0c" ? p.paper : p.base === "#0e0e0c" || p.base === "#101010" ? p.paper : p.base;
     return `<rect width="1200" height="600" fill="${p.accent}"/>
       <text x="430" y="430" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="330" fill="#0e0e0c">${p.spec}</text>
-      <text x="820" y="240" font-family="Space Grotesk, sans-serif" font-size="26" fill="#0e0e0c">${p.title} — visual system<tspan x="820" dy="38">${p.year} · ${p.tags.split(",")[0]}</tspan></text>
+      <text x="820" y="240" font-family="Space Grotesk, sans-serif" font-size="26" fill="#0e0e0c">${p.title}<tspan x="820" dy="38">${p.year} · ${p.tags.split(",")[0]}</tspan></text>
       <rect x="820" y="300" width="310" height="2" fill="#0e0e0c"/>
       <text x="820" y="430" font-family="Syne, sans-serif" font-weight="800" font-size="40" fill="#0e0e0c">${p.index} / 005</text>`;
   }
 
-  function svgEl(viewH, inner, label) {
-    return `<svg viewBox="0 0 1200 ${viewH}" role="img" aria-label="${label}">${inner}</svg>`;
+  // Square compositions for the two-column grids (800x800)
+  function markComp(p) {
+    const fg = p.paper;
+    return `<rect width="800" height="800" fill="${p.base === p.accent ? p.accent : p.base}"/>
+      <circle cx="400" cy="380" r="220" fill="none" stroke="${p.base === p.accent ? "#0e0e0c" : fg}" stroke-width="8"/>
+      <circle cx="400" cy="380" r="86" fill="${p.base === p.accent ? "#0e0e0c" : p.accent}"/>
+      <text x="400" y="700" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="26" letter-spacing="4"
+        fill="${p.base === p.accent ? "#0e0e0c" : fg}" opacity=".7">${p.title.toUpperCase()} — MARK</text>`;
+  }
+
+  function paletteComp(p) {
+    const swatches = [p.accent, p.paper, p.base === p.accent ? "#161613" : p.base];
+    const rows = swatches.map((c, i) => {
+      const label = i === 0 ? "ACCENT" : i === 1 ? "PAPER" : "BASE";
+      const dark = c === "#f2efe9" || c === "#e8e2d6" || c === "#d4f93c";
+      return `<rect y="${i * 266.7}" width="800" height="266.7" fill="${c}"/>
+        <text x="48" y="${i * 266.7 + 150}" font-family="Syne, sans-serif" font-weight="700" font-size="40"
+          fill="${dark ? "#0e0e0c" : "#f2efe9"}">${label} · ${c.toUpperCase()}</text>`;
+    }).join("");
+    return rows;
+  }
+
+  function cardComp(p) {
+    const bg = p.paper;
+    const cardA = p.base === p.accent ? "#0e0e0c" : p.base;
+    return `<rect width="800" height="800" fill="${bg}"/>
+      <g transform="rotate(-7 400 430)">
+        <rect x="170" y="300" width="460" height="270" rx="10" fill="${cardA}"/>
+        <text x="210" y="400" font-family="Syne, sans-serif" font-weight="800" font-size="72" fill="${p.accent}">${p.title[0]}.</text>
+        <text x="210" y="520" font-family="Space Grotesk, sans-serif" font-size="22" fill="${bg}" opacity=".75">${p.client}</text>
+      </g>
+      <g transform="rotate(5 470 270)">
+        <rect x="240" y="140" width="460" height="120" rx="10" fill="${p.accent}"/>
+        <text x="280" y="215" font-family="Space Grotesk, sans-serif" font-weight="500" font-size="30" fill="#0e0e0c">hello@${p.title.toLowerCase().replace(/[^a-z]/g, "")}.studio</text>
+      </g>`;
+  }
+
+  function gridComp(p) {
+    let lines = "";
+    for (let i = 1; i < 6; i++) {
+      lines += `<line x1="${i * 133.3}" y1="0" x2="${i * 133.3}" y2="800" stroke="${p.paper}" stroke-width="1" opacity=".22"/>`;
+      lines += `<line x1="0" y1="${i * 133.3}" x2="800" y2="${i * 133.3}" stroke="${p.paper}" stroke-width="1" opacity=".22"/>`;
+    }
+    return `<rect width="800" height="800" fill="${p.base === p.accent ? "#0e0e0c" : p.base}"/>
+      ${lines}
+      <rect x="133.3" y="133.3" width="266.7" height="400" fill="${p.accent}"/>
+      <circle cx="533.3" cy="666.7" r="66" fill="${p.paper}"/>
+      <text x="48" y="752" font-family="Space Grotesk, sans-serif" font-size="24" fill="${p.paper}" opacity=".6">LAYOUT SYSTEM — 6 × 6</text>`;
+  }
+
+  function setArt(id, viewBox, inner, label, caption) {
+    const fig = document.getElementById(id);
+    fig.innerHTML =
+      `<div class="pcase-visual__frame"><svg viewBox="0 0 ${viewBox}" role="img" aria-label="${label}">${inner}</svg></div>` +
+      (caption ? `<figcaption class="pcase-caption"><span>${caption}</span><span>${data.title}, ${data.year}</span></figcaption>` : "");
   }
 
   /* ----------------------------------------------------------
@@ -153,9 +206,13 @@
   document.getElementById("caseIntro").textContent = data.intro;
   document.getElementById("caseBody1").textContent = data.body1;
   document.getElementById("caseBody2").textContent = data.body2;
-  document.getElementById("caseHeroArt").innerHTML = svgEl(680, heroArt[data.art](data), `${data.title} hero artwork`);
-  document.getElementById("caseArt1").innerHTML = svgEl(600, posterRows(data), `${data.title} poster series`);
-  document.getElementById("caseArt2").innerHTML = svgEl(600, specimenPlate(data), `${data.title} specimen`);
+  setArt("caseHeroArt", "1200 680", heroArt[data.art](data), `${data.title} hero artwork`);
+  setArt("caseArt1", "1200 600", posterRows(data), `${data.title} poster series`, "01 — Poster series");
+  setArt("caseArtA1", "800 800", markComp(data), `${data.title} identity mark`, "02 — Identity mark");
+  setArt("caseArtA2", "800 800", paletteComp(data), `${data.title} colour system`, "03 — Colour system");
+  setArt("caseArt2", "1200 600", specimenPlate(data), `${data.title} specimen`, "04 — Type specimen");
+  setArt("caseArtB1", "800 800", cardComp(data), `${data.title} collateral`, "05 — Collateral");
+  setArt("caseArtB2", "800 800", gridComp(data), `${data.title} layout grid`, "06 — Grid & layout");
   document.getElementById("nextTitle").textContent = nextData.title;
   document.getElementById("nextLink").href = `project.html?p=${data.next}`;
 
@@ -293,8 +350,8 @@
           scrollTrigger: { trigger: fig, start: "top 88%", once: true },
         });
       }
-      gsap.fromTo(fig.querySelector("svg"), { yPercent: -4 }, {
-        yPercent: 4, ease: "none",
+      gsap.fromTo(fig.querySelector("svg"), { yPercent: -4, scale: 1.09 }, {
+        yPercent: 4, scale: 1.09, ease: "none",
         scrollTrigger: { trigger: fig, start: "top bottom", end: "bottom top", scrub: true },
       });
     });

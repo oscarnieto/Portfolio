@@ -585,10 +585,23 @@ ul { list-style: none; }
 }
 .pcase-visual {
   margin: 0 var(--gutter) clamp(4rem, 9vw, 8rem);
-  border-radius: 10px; overflow: hidden;
 }
+.pcase-visual__frame { border-radius: 10px; overflow: hidden; }
 .pcase-visual svg { width: 100%; height: auto; display: block; }
 .pcase-visual--hero { margin-top: 0; }
+.pcase-caption {
+  display: flex; justify-content: space-between; gap: 1rem;
+  margin-top: 0.9rem;
+  font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.pcase-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  padding: 0 var(--gutter);
+  margin-bottom: clamp(4rem, 9vw, 8rem);
+}
+.pcase-grid .pcase-visual { margin: 0; }
 
 .pcase-section { padding: 0 var(--gutter) clamp(4rem, 9vw, 8rem); }
 .pcase-statement {
@@ -631,6 +644,8 @@ ul { list-style: none; }
 @media (max-width: 720px) {
   /* no hamburger on case pages — the back link is the way out */
   .pcase-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pcase-caption { font-size: 0.7rem; }
+  .pcase-caption span:last-child { display: none; }
   .pcase-cols { grid-template-columns: 1fr; }
   .pcase-title { font-size: clamp(2.6rem, 12vw, 6rem); }
 }
