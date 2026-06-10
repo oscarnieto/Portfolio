@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [claude/lucid-wozniak-5sau7a]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
