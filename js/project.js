@@ -1,5 +1,5 @@
 /* ============================================================
-   Iris Novak — Project case study page
+   Oscar Nieto — Project case study page
    Template-driven: project.html?p=<slug>
    ============================================================ */
 
@@ -79,13 +79,13 @@
       <circle cx="600" cy="340" r="240" fill="none" stroke="${p.accent}" stroke-width="52"/>
       <circle cx="600" cy="340" r="116" fill="${p.accent}"/>
       <circle cx="600" cy="340" r="20" fill="${p.base}"/>
-      <text x="70" y="610" font-family="Syne, sans-serif" font-weight="800" font-size="64" fill="${p.paper}">MONO®</text>
+      <text x="70" y="610" font-family="Oswald, sans-serif" font-weight="700" font-size="64" fill="${p.paper}">MONO®</text>
       <text x="1130" y="610" text-anchor="end" font-family="Space Grotesk, sans-serif" font-size="26" fill="${p.paper}" opacity=".55">33⅓ RPM — EST. 2026</text>`,
     brut: (p) => `
       <rect width="1200" height="680" fill="${p.paper}"/>
       <rect x="120" y="90" width="960" height="500" fill="${p.base}"/>
-      <text x="180" y="300" font-family="Syne, sans-serif" font-weight="800" font-size="132" fill="${p.paper}">CAFÉ</text>
-      <text x="180" y="460" font-family="Syne, sans-serif" font-weight="800" font-size="132" fill="#d4f93c">BRUT</text>
+      <text x="180" y="300" font-family="Oswald, sans-serif" font-weight="700" font-size="132" fill="${p.paper}">CAFÉ</text>
+      <text x="180" y="460" font-family="Oswald, sans-serif" font-weight="700" font-size="132" fill="#d4f93c">BRUT</text>
       <circle cx="950" cy="190" r="38" fill="${p.paper}"/>
       <text x="180" y="540" font-family="Space Grotesk, sans-serif" font-size="24" fill="${p.paper}" opacity=".6">VINS NATURALS — EL BORN, BCN</text>`,
     ojo: (p) => `
@@ -96,17 +96,17 @@
       <ellipse cx="600" cy="340" rx="330" ry="180" fill="none" stroke="${p.paper}" stroke-width="10"/>
       <circle cx="600" cy="340" r="92" fill="${p.paper}"/>
       <circle cx="600" cy="340" r="40" fill="${p.base}"/>
-      <text x="70" y="612" font-family="Syne, sans-serif" font-weight="800" font-size="56" fill="${p.paper}">OJO — 24</text>`,
+      <text x="70" y="612" font-family="Oswald, sans-serif" font-weight="700" font-size="56" fill="${p.paper}">OJO — 24</text>`,
     norr: (p) => `
       <rect width="1200" height="680" fill="${p.paper}"/>
       <rect x="0" y="0" width="400" height="680" fill="${p.base}"/>
       <rect x="800" y="0" width="400" height="680" fill="${p.base}"/>
-      <text x="600" y="390" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="170" fill="${p.base}">N—A</text>
+      <text x="600" y="390" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="700" font-size="170" fill="${p.base}">N—A</text>
       <circle cx="600" cy="150" r="26" fill="${p.accent}"/>
       <text x="600" y="560" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="24" fill="${p.base}" opacity=".6">STOCKHOLM</text>`,
     liminal: (p) => `
       <rect width="1200" height="680" fill="${p.base}"/>
-      <text x="600" y="470" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="380" fill="${p.paper}">Aa</text>
+      <text x="600" y="470" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="700" font-size="380" fill="${p.paper}">Aa</text>
       <rect x="70" y="70" width="240" height="18" fill="${p.paper}"/>
       <rect x="890" y="592" width="240" height="18" fill="${p.paper}"/>`,
   };
@@ -118,7 +118,7 @@
     for (let i = 0; i < 5; i++) {
       const y = 118 + i * 102;
       const solid = i % 2 === 0;
-      rows += `<text x="60" y="${y}" font-family="Syne, sans-serif" font-weight="800" font-size="96"
+      rows += `<text x="60" y="${y}" font-family="Oswald, sans-serif" font-weight="700" font-size="96"
         ${solid ? `fill="${p.paper}"` : `fill="none" stroke="${p.paper}" stroke-width="2"`}
         opacity="${1 - i * 0.13}">${word}</text>`;
     }
@@ -130,10 +130,10 @@
   function specimenPlate(p) {
     const fg = p.paper === "#0e0e0c" ? p.paper : p.base === "#0e0e0c" || p.base === "#101010" ? p.paper : p.base;
     return `<rect width="1200" height="600" fill="${p.accent}"/>
-      <text x="430" y="430" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="330" fill="#0e0e0c">${p.spec}</text>
+      <text x="430" y="430" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="700" font-size="330" fill="#0e0e0c">${p.spec}</text>
       <text x="820" y="240" font-family="Space Grotesk, sans-serif" font-size="26" fill="#0e0e0c">${p.title}<tspan x="820" dy="38">${p.year} · ${p.tags.split(",")[0]}</tspan></text>
       <rect x="820" y="300" width="310" height="2" fill="#0e0e0c"/>
-      <text x="820" y="430" font-family="Syne, sans-serif" font-weight="800" font-size="40" fill="#0e0e0c">${p.index} / 005</text>`;
+      <text x="820" y="430" font-family="Oswald, sans-serif" font-weight="700" font-size="40" fill="#0e0e0c">${p.index} / 005</text>`;
   }
 
   // Square compositions for the two-column grids (800x800)
@@ -152,7 +152,7 @@
       const label = i === 0 ? "ACCENT" : i === 1 ? "PAPER" : "BASE";
       const dark = c === "#f2efe9" || c === "#e8e2d6" || c === "#d4f93c";
       return `<rect y="${i * 266.7}" width="800" height="266.7" fill="${c}"/>
-        <text x="48" y="${i * 266.7 + 150}" font-family="Syne, sans-serif" font-weight="700" font-size="40"
+        <text x="48" y="${i * 266.7 + 150}" font-family="Oswald, sans-serif" font-weight="700" font-size="40"
           fill="${dark ? "#0e0e0c" : "#f2efe9"}">${label} · ${c.toUpperCase()}</text>`;
     }).join("");
     return rows;
@@ -164,7 +164,7 @@
     return `<rect width="800" height="800" fill="${bg}"/>
       <g transform="rotate(-7 400 430)">
         <rect x="170" y="300" width="460" height="270" rx="10" fill="${cardA}"/>
-        <text x="210" y="400" font-family="Syne, sans-serif" font-weight="800" font-size="72" fill="${p.accent}">${p.title[0]}.</text>
+        <text x="210" y="400" font-family="Oswald, sans-serif" font-weight="700" font-size="72" fill="${p.accent}">${p.title[0]}.</text>
         <text x="210" y="520" font-family="Space Grotesk, sans-serif" font-size="22" fill="${bg}" opacity=".75">${p.client}</text>
       </g>
       <g transform="rotate(5 470 270)">
@@ -196,7 +196,7 @@
   /* ----------------------------------------------------------
      Populate the page
      ---------------------------------------------------------- */
-  document.title = `${data.title} — Iris Novak`;
+  document.title = `${data.title} — Oscar Nieto`;
   document.getElementById("caseIndex").textContent = data.index;
   document.getElementById("caseTitle").textContent = data.title;
   document.getElementById("metaClient").textContent = data.client;

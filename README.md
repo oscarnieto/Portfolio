@@ -1,6 +1,6 @@
-# Iris Novak — Portfolio
+# Oscar Nieto — Portfolio
 
-A fictional graphic-designer portfolio landing page. Dark editorial layout, Syne + Space Grotesk type,
+A fictional graphic-designer portfolio landing page. Dark editorial layout, Oswald (700, uppercase headlines) + Space Grotesk type,
 a Three.js domain-warped noise shader in the hero, and GSAP-driven scroll choreography.
 
 ## Stack

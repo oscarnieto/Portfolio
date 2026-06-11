@@ -1,5 +1,5 @@
 /* ============================================================
-   Iris Novak — Portfolio
+   Oscar Nieto — Portfolio
    GSAP + ScrollTrigger + Lenis + Three.js
    ============================================================ */
 
