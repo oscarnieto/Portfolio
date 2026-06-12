@@ -8,6 +8,7 @@ import * as THREE from "../vendor/three.module.min.js";
 const { gsap, ScrollTrigger, Lenis } = window;
 gsap.registerPlugin(ScrollTrigger);
 
+const FLAGS = (window.SITE_CONFIG && window.SITE_CONFIG.theme) || {};
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -15,7 +16,7 @@ const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matc
    Smooth scroll (Lenis), bridged into ScrollTrigger
    ------------------------------------------------------------ */
 let lenis = null;
-if (!reducedMotion) {
+if (!reducedMotion && FLAGS.smoothScroll !== false) {
   lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1, smoothWheel: true });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -81,6 +82,10 @@ let renderHero = () => {};
 let heroVisible = true;
 
 (function initHeroScene() {
+  if (FLAGS.shader === false) {
+    canvas.style.background = "radial-gradient(120% 90% at 70% 10%, #1d2410 0%, #0e0e0c 60%)";
+    return;
+  }
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: "low-power" });
@@ -248,6 +253,9 @@ function heroIntro() {
 
 if (reducedMotion) {
   preloader.remove();
+} else if (FLAGS.preloader === false) {
+  preloader.remove();
+  heroIntro();
 } else {
   const progress = { value: 0 };
   const ready = Promise.all([
@@ -344,7 +352,7 @@ ScrollTrigger.create({
 
   const loop = gsap.to(track, {
     xPercent: -25,
-    duration: 18,
+    duration: Number(FLAGS.marqueeSpeed) || 18,
     ease: "none",
     repeat: -1,
   });

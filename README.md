@@ -19,6 +19,22 @@ python3 -m http.server 8765
 # then open http://localhost:8765
 ```
 
+## Visual editor
+
+Open **`editor.html`** to edit the whole site without touching code: theme colours,
+animation toggles, every text on the home page, the work list, services, contact info,
+and each project's case study content and artwork palette.
+
+- Changes preview live in an embedded frame (desktop/mobile) and are kept as a
+  **draft in your browser** (localStorage), so you can revisit and keep editing.
+- To publish, press **"Publicar cambios…"**: download the generated `site-config.js`
+  and upload it to the repo's `data/` folder via GitHub's *Add file → Upload files*.
+  Pages redeploys automatically.
+- "Restablecer" discards the draft and returns to the published configuration.
+
+The site reads `data/site-config.js` at load (`js/apply-config.js` applies it),
+so the HTML always carries sensible defaults even without configuration.
+
 ## Checks
 
 `scripts/check.mjs` loads the page in headless Chromium at desktop, laptop and mobile (iPhone 13)

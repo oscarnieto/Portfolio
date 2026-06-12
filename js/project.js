@@ -66,6 +66,12 @@
     },
   };
 
+  // overrides from the visual editor / published site config
+  const cfgProjects = (window.SITE_CONFIG && window.SITE_CONFIG.projects) || {};
+  Object.keys(cfgProjects).forEach((key) => {
+    if (PROJECTS[key]) Object.assign(PROJECTS[key], cfgProjects[key]);
+  });
+
   const slug = new URLSearchParams(location.search).get("p");
   const data = PROJECTS[slug] || PROJECTS["mono-records"];
   const nextData = PROJECTS[data.next];

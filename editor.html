@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor visual — Oscar Nieto</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230E0E0C'/><circle cx='16' cy='16' r='8' fill='%23D4F93C'/></svg>">
+  <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+
+  <aside class="ed-panel">
+    <header class="ed-head">
+      <h1><span class="ed-dot"></span>Editor visual</h1>
+      <p>Modifica la web sin tocar código. Los cambios se ven al instante en la vista previa y quedan guardados como borrador en este navegador.</p>
+    </header>
+
+    <div class="ed-groups" id="edGroups"><!-- generado por editor.js --></div>
+
+    <footer class="ed-actions">
+      <button class="ed-btn ed-btn--primary" id="btnPublish">Publicar cambios…</button>
+      <div class="ed-actions__row">
+        <button class="ed-btn" id="btnDownload">Descargar configuración</button>
+        <button class="ed-btn ed-btn--danger" id="btnReset">Restablecer</button>
+      </div>
+      <p class="ed-hint" id="draftState">Sin cambios pendientes.</p>
+    </footer>
+  </aside>
+
+  <main class="ed-preview">
+    <div class="ed-toolbar">
+      <label>
+        Página
+        <select id="pageSelect">
+          <option value="index.html">Inicio</option>
+          <option value="project.html?p=mono-records">Proyecto — Mono Records</option>
+          <option value="project.html?p=cafe-brut">Proyecto — Café Brut</option>
+          <option value="project.html?p=ojo-festival">Proyecto — Ojo Festival</option>
+          <option value="project.html?p=norr-atelier">Proyecto — Norr Atelier</option>
+          <option value="project.html?p=liminal-type">Proyecto — Liminal Type Co.</option>
+        </select>
+      </label>
+      <div class="ed-devices">
+        <button class="ed-dev is-active" data-w="" id="devDesktop" title="Escritorio">⬜ Escritorio</button>
+        <button class="ed-dev" data-w="390" title="Móvil">▯ Móvil</button>
+      </div>
+      <button class="ed-btn ed-btn--ghost" id="btnReload">↻ Recargar</button>
+    </div>
+    <div class="ed-frame-wrap" id="frameWrap">
+      <iframe id="previewFrame" src="index.html" title="Vista previa de la web"></iframe>
+    </div>
+  </main>
+
+  <!-- Modal de publicación -->
+  <div class="ed-modal" id="publishModal" hidden>
+    <div class="ed-modal__card">
+      <h2>Publicar los cambios</h2>
+      <p>La web se publica desde GitHub. Para que tus cambios sean visibles para todo el mundo:</p>
+      <ol>
+        <li>Pulsa <strong>«Descargar configuración»</strong>. Se descargará el archivo <code>site-config.js</code>.</li>
+        <li>Abre la carpeta <a href="https://github.com/oscarnieto/Portfolio/tree/main/data" target="_blank" rel="noopener"><strong>data</strong> del repositorio en GitHub</a> (rama <code>main</code>).</li>
+        <li>Pulsa <strong>Add file → Upload files</strong>, arrastra el archivo descargado y confirma con <strong>Commit changes</strong>. Al reemplazar el archivo existente, la web se reconstruye sola.</li>
+        <li>En 1–2 minutos los cambios estarán publicados. Fuerza la recarga con <kbd>Ctrl/Cmd + Shift + R</kbd> si no los ves.</li>
+      </ol>
+      <p class="ed-hint">Tu borrador seguirá guardado en este navegador hasta que pulses «Restablecer».</p>
+      <div class="ed-actions__row">
+        <button class="ed-btn ed-btn--primary" id="btnDownload2">Descargar configuración</button>
+        <button class="ed-btn" id="btnCloseModal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/site-config.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
