@@ -124,6 +124,16 @@ body {
 .ed-range input[type="range"] { flex: 1; accent-color: var(--acid); }
 .ed-range output { width: 34px; text-align: right; color: var(--dim); font-size: 12.5px; }
 
+/* image slot */
+.ed-img { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.ed-img__thumb {
+  width: 56px; height: 42px; flex: 0 0 auto;
+  border: 1px solid var(--line); border-radius: 6px;
+  background-color: var(--field); background-size: cover; background-position: center;
+}
+.ed-img__btn { padding: 7px 10px; font-size: 12px; cursor: pointer; }
+.ed-field input + input { margin-top: 6px; }
+
 /* list (one item per line) */
 .ed-field--list textarea { min-height: 100px; }
 

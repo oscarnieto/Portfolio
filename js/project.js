@@ -69,7 +69,16 @@
   // overrides from the visual editor / published site config
   const cfgProjects = (window.SITE_CONFIG && window.SITE_CONFIG.projects) || {};
   Object.keys(cfgProjects).forEach((key) => {
-    if (PROJECTS[key]) Object.assign(PROJECTS[key], cfgProjects[key]);
+    if (!PROJECTS[key]) return;
+    const over = cfgProjects[key];
+    const images = Object.assign({}, PROJECTS[key].images);
+    if (over.images) {
+      Object.keys(over.images).forEach((slot) => {
+        images[slot] = Object.assign({}, images[slot], over.images[slot]);
+      });
+    }
+    Object.assign(PROJECTS[key], over);
+    PROJECTS[key].images = images;
   });
 
   const slug = new URLSearchParams(location.search).get("p");
@@ -192,10 +201,15 @@
       <text x="48" y="752" font-family="Space Grotesk, sans-serif" font-size="24" fill="${p.paper}" opacity=".6">LAYOUT SYSTEM — 6 × 6</text>`;
   }
 
-  function setArt(id, viewBox, inner, label, caption) {
+  function setArt(id, slot, viewBox, inner, label, defaultCaption) {
     const fig = document.getElementById(id);
-    fig.innerHTML =
-      `<div class="pcase-visual__frame"><svg viewBox="0 0 ${viewBox}" role="img" aria-label="${label}">${inner}</svg></div>` +
+    const over = (data.images && data.images[slot]) || {};
+    const caption = over.caption !== undefined ? over.caption : defaultCaption;
+    const safeLabel = String(label).replace(/"/g, "&quot;");
+    const media = over.src
+      ? `<div class="pcase-visual__frame is-img"><img src="${String(over.src).replace(/"/g, "&quot;")}" alt="${safeLabel}" loading="lazy"></div>`
+      : `<div class="pcase-visual__frame"><svg viewBox="0 0 ${viewBox}" role="img" aria-label="${safeLabel}">${inner}</svg></div>`;
+    fig.innerHTML = media +
       (caption ? `<figcaption class="pcase-caption"><span>${caption}</span><span>${data.title}, ${data.year}</span></figcaption>` : "");
   }
 
@@ -203,6 +217,15 @@
      Populate the page
      ---------------------------------------------------------- */
   document.title = `${data.title} — Oscar Nieto`;
+  const ui = (window.SITE_CONFIG && window.SITE_CONFIG.caseUi) || {};
+  if (ui.kicker) {
+    document.querySelector(".pcase-kicker").innerHTML =
+      `<span id="caseIndex">001</span> — ${String(ui.kicker).replace(/</g, "&lt;")}`;
+  }
+  const sectionLabels = document.querySelectorAll(".pcase .section-head__label");
+  if (ui.brief && sectionLabels[0]) sectionLabels[0].textContent = ui.brief;
+  if (ui.work && sectionLabels[1]) sectionLabels[1].textContent = ui.work;
+  if (ui.next) document.querySelector(".pcase-next__kicker").textContent = ui.next;
   document.getElementById("caseIndex").textContent = data.index;
   document.getElementById("caseTitle").textContent = data.title;
   document.getElementById("metaClient").textContent = data.client;
@@ -212,13 +235,13 @@
   document.getElementById("caseIntro").textContent = data.intro;
   document.getElementById("caseBody1").textContent = data.body1;
   document.getElementById("caseBody2").textContent = data.body2;
-  setArt("caseHeroArt", "1200 680", heroArt[data.art](data), `${data.title} hero artwork`);
-  setArt("caseArt1", "1200 600", posterRows(data), `${data.title} poster series`, "01 — Poster series");
-  setArt("caseArtA1", "800 800", markComp(data), `${data.title} identity mark`, "02 — Identity mark");
-  setArt("caseArtA2", "800 800", paletteComp(data), `${data.title} colour system`, "03 — Colour system");
-  setArt("caseArt2", "1200 600", specimenPlate(data), `${data.title} specimen`, "04 — Type specimen");
-  setArt("caseArtB1", "800 800", cardComp(data), `${data.title} collateral`, "05 — Collateral");
-  setArt("caseArtB2", "800 800", gridComp(data), `${data.title} layout grid`, "06 — Grid & layout");
+  setArt("caseHeroArt", "hero", "1200 680", heroArt[data.art](data), `${data.title} hero artwork`, "");
+  setArt("caseArt1", "art1", "1200 600", posterRows(data), `${data.title} poster series`, "01 — Poster series");
+  setArt("caseArtA1", "a1", "800 800", markComp(data), `${data.title} identity mark`, "02 — Identity mark");
+  setArt("caseArtA2", "a2", "800 800", paletteComp(data), `${data.title} colour system`, "03 — Colour system");
+  setArt("caseArt2", "art2", "1200 600", specimenPlate(data), `${data.title} specimen`, "04 — Type specimen");
+  setArt("caseArtB1", "b1", "800 800", cardComp(data), `${data.title} collateral`, "05 — Collateral");
+  setArt("caseArtB2", "b2", "800 800", gridComp(data), `${data.title} layout grid`, "06 — Grid & layout");
   document.getElementById("nextTitle").textContent = nextData.title;
   document.getElementById("nextLink").href = `project.html?p=${data.next}`;
 
@@ -356,7 +379,7 @@
           scrollTrigger: { trigger: fig, start: "top 88%", once: true },
         });
       }
-      gsap.fromTo(fig.querySelector("svg"), { yPercent: -4, scale: 1.09 }, {
+      gsap.fromTo(fig.querySelector("svg, img"), { yPercent: -4, scale: 1.09 }, {
         yPercent: 4, scale: 1.09, ease: "none",
         scrollTrigger: { trigger: fig, start: "top bottom", end: "bottom top", scrub: true },
       });

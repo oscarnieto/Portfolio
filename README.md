@@ -31,6 +31,9 @@ and each project's case study content and artwork palette.
   and upload it to the repo's `data/` folder via GitHub's *Add file → Upload files*.
   Pages redeploys automatically.
 - "Restablecer" discards the draft and returns to the published configuration.
+- Each case study's seven image slots accept an uploaded file (auto-resized to
+  1600px JPEG and embedded in the config) or a URL/repo path (e.g. `img/foto.jpg`),
+  with editable captions; empty slots fall back to the generated SVG artwork.
 
 The site reads `data/site-config.js` at load (`js/apply-config.js` applies it),
 so the HTML always carries sensible defaults even without configuration.

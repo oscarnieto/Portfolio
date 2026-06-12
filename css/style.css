@@ -574,6 +574,12 @@ ul { list-style: none; }
   margin: 0 var(--gutter) clamp(4rem, 9vw, 8rem);
 }
 .pcase-visual__frame { border-radius: 10px; overflow: hidden; }
+.pcase-visual__frame.is-img { aspect-ratio: 2 / 1; }
+.pcase-visual--hero .pcase-visual__frame.is-img { aspect-ratio: 1200 / 680; }
+.pcase-grid .pcase-visual__frame.is-img { aspect-ratio: 1 / 1; }
+.pcase-visual__frame.is-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
 .pcase-visual svg { width: 100%; height: auto; display: block; }
 .pcase-visual--hero { margin-top: 0; }
 .pcase-caption {

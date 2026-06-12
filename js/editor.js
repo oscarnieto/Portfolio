@@ -38,7 +38,7 @@
       draftState.textContent = "Borrador guardado en este navegador · " +
         new Date().toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
     } catch (e) {
-      draftState.textContent = "No se pudo guardar el borrador (almacenamiento no disponible).";
+      draftState.textContent = "⚠ Borrador demasiado grande para guardarse: usa URLs o sube las imágenes a la carpeta img/ del repositorio.";
     }
   }
 
@@ -130,6 +130,13 @@
     ]},
   ];
 
+  SCHEMA.push({ title: "Páginas de proyecto — textos comunes", fields: [
+    { path: "caseUi.kicker", label: "Etiqueta de cabecera («Case study»)", type: "text" },
+    { path: "caseUi.brief", label: "Título de la sección a", type: "text" },
+    { path: "caseUi.work", label: "Título de la sección b", type: "text" },
+    { path: "caseUi.next", label: "Etiqueta «Next project»", type: "text" },
+  ]});
+
   // grupos por proyecto (páginas de caso)
   const PROJECT_LABELS = {
     "mono-records": "Proyecto — Mono Records",
@@ -148,11 +155,19 @@
       { path: `projects.${slug}.intro`, label: "Brief (declaración grande)", type: "textarea" },
       { path: `projects.${slug}.body1`, label: "The Work — columna 1", type: "textarea" },
       { path: `projects.${slug}.body2`, label: "The Work — columna 2", type: "textarea" },
-      { sub: "Paleta de las imágenes" },
+      { sub: "Paleta del arte generado" },
       { path: `projects.${slug}.accent`, label: "Acento", type: "color" },
       { path: `projects.${slug}.base`, label: "Base", type: "color" },
       { path: `projects.${slug}.paper`, label: "Papel", type: "color" },
       { path: `projects.${slug}.spec`, label: "Letras del espécimen", type: "text" },
+      { sub: "Imágenes — sube un archivo o pega una URL. Vacías, se usa el arte generado." },
+      { path: `projects.${slug}.images.hero`, label: "Imagen principal (panorámica)", type: "image" },
+      { path: `projects.${slug}.images.art1`, label: "01 · Ancho completo", type: "image" },
+      { path: `projects.${slug}.images.a1`, label: "02 · Cuadrada izquierda", type: "image" },
+      { path: `projects.${slug}.images.a2`, label: "03 · Cuadrada derecha", type: "image" },
+      { path: `projects.${slug}.images.art2`, label: "04 · Ancho completo", type: "image" },
+      { path: `projects.${slug}.images.b1`, label: "05 · Cuadrada izquierda", type: "image" },
+      { path: `projects.${slug}.images.b2`, label: "06 · Cuadrada derecha", type: "image" },
     ]});
   });
 
@@ -244,6 +259,69 @@
       });
       row.appendChild(input); row.appendChild(out);
       wrap.appendChild(row);
+    } else if (field.type === "image") {
+      if (getPath(field.path) == null) setPath(field.path, { src: "", caption: "" });
+      const row = document.createElement("div");
+      row.className = "ed-img";
+      const thumb = document.createElement("div");
+      thumb.className = "ed-img__thumb";
+      const fileBtn = document.createElement("label");
+      fileBtn.className = "ed-btn ed-img__btn";
+      fileBtn.textContent = "Subir…";
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.hidden = true;
+      fileBtn.appendChild(fileInput);
+      const clearBtn = document.createElement("button");
+      clearBtn.type = "button";
+      clearBtn.className = "ed-btn ed-img__btn ed-btn--danger";
+      clearBtn.textContent = "Quitar";
+      const urlInput = document.createElement("input");
+      urlInput.type = "text";
+      const capInput = document.createElement("input");
+      capInput.type = "text";
+      capInput.placeholder = "Pie de foto (vacío = sin pie)";
+      capInput.value = getPath(field.path + ".caption") ?? "";
+
+      const refresh = () => {
+        const src = getPath(field.path + ".src") || "";
+        thumb.style.backgroundImage = src ? `url("${src}")` : "none";
+        clearBtn.style.display = src ? "" : "none";
+        urlInput.value = src && !src.startsWith("data:") ? src : "";
+        urlInput.placeholder = src.startsWith("data:") ? "(archivo subido)" : "https://… o img/foto.jpg";
+      };
+      const apply = (src) => { setPath(field.path + ".src", src); refresh(); onFieldChange(field); };
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        const img = new Image();
+        img.onload = () => {
+          const max = 1600;
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (w > max) { h = Math.round(h * (max / w)); w = max; }
+          const c = document.createElement("canvas");
+          c.width = w; c.height = h;
+          c.getContext("2d").drawImage(img, 0, 0, w, h);
+          URL.revokeObjectURL(img.src);
+          apply(c.toDataURL("image/jpeg", 0.82));
+        };
+        img.src = URL.createObjectURL(file);
+        fileInput.value = "";
+      });
+      urlInput.addEventListener("change", () => apply(urlInput.value.trim()));
+      clearBtn.addEventListener("click", () => apply(""));
+      capInput.addEventListener("input", () => {
+        setPath(field.path + ".caption", capInput.value);
+        onFieldChange(field);
+      });
+
+      row.appendChild(thumb); row.appendChild(fileBtn); row.appendChild(clearBtn);
+      wrap.appendChild(row);
+      wrap.appendChild(urlInput);
+      wrap.appendChild(capInput);
+      refresh();
     } else { // text / number
       const input = document.createElement("input");
       input.type = field.type === "number" ? "number" : "text";
