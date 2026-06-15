@@ -233,15 +233,71 @@ ul { list-style: none; }
   position: relative; z-index: 3;
   margin: 0; user-select: none; text-align: center;
 }
-.hero__center { display: block; overflow: hidden; padding-bottom: 0.08em; }
+.hero__center { display: block; overflow: hidden; padding-bottom: 0.1em; }
 .hero__center-inner {
-  display: inline-block; will-change: transform;
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(4.5rem, 22vw, 21rem);
-  line-height: 0.86; letter-spacing: 0.005em;
+  position: relative; display: inline-block; will-change: transform;
+  white-space: nowrap;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+  font-weight: 700;
+  font-size: clamp(4rem, 21vw, 20rem);
+  line-height: 0.92; letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 .hero__center-inner .char { display: inline-block; }
+
+/* Glitch on hover (desktop) — RGB-split ghost layers + slice jitter */
+.hero__center-inner::before,
+.hero__center-inner::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0; width: 100%;
+  pointer-events: none; opacity: 0;
+  text-transform: uppercase;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero__title:hover .hero__center-inner { animation: glitch-shake 0.32s steps(2) infinite; }
+  .hero__title:hover .hero__center-inner::before {
+    opacity: 0.85; color: #00eaff; mix-blend-mode: screen;
+    animation: glitch-a 0.42s steps(2, jump-none) infinite;
+  }
+  .hero__title:hover .hero__center-inner::after {
+    opacity: 0.85; color: #ff2d55; mix-blend-mode: screen;
+    animation: glitch-b 0.5s steps(2, jump-none) infinite;
+  }
+}
+@keyframes glitch-shake {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(1px, -1px); }
+}
+@keyframes glitch-a {
+  0%   { clip-path: inset(0 0 82% 0); transform: translate(-4px, -2px); }
+  25%  { clip-path: inset(38% 0 40% 0); transform: translate(4px, 0); }
+  50%  { clip-path: inset(70% 0 12% 0); transform: translate(-3px, 1px); }
+  75%  { clip-path: inset(20% 0 62% 0); transform: translate(3px, -1px); }
+  100% { clip-path: inset(54% 0 28% 0); transform: translate(-2px, 2px); }
+}
+@keyframes glitch-b {
+  0%   { clip-path: inset(58% 0 26% 0); transform: translate(4px, 1px); }
+  25%  { clip-path: inset(14% 0 68% 0); transform: translate(-4px, -1px); }
+  50%  { clip-path: inset(44% 0 36% 0); transform: translate(3px, 2px); }
+  75%  { clip-path: inset(78% 0 6% 0); transform: translate(-3px, 0); }
+  100% { clip-path: inset(28% 0 54% 0); transform: translate(2px, -2px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__title:hover .hero__center-inner,
+  .hero__title:hover .hero__center-inner::before,
+  .hero__title:hover .hero__center-inner::after { animation: none; }
+}
+
+/* Lines radiating from the centre to each satellite word */
+.hero__lines {
+  position: absolute; inset: 0; z-index: 2;
+  width: 100%; height: 100%; overflow: visible; pointer-events: none;
+}
+.hero__lines line {
+  stroke: var(--bone); stroke-width: 1; opacity: 0.32;
+  vector-effect: non-scaling-stroke;
+}
+.hero__lines line[data-corner] { opacity: 0.4; }
 
 /* Satellite words orbiting the centre */
 .hero__sats { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
@@ -538,12 +594,13 @@ ul { list-style: none; }
 
   .hero__head { flex-direction: column; gap: 0.75rem; }
   .hero__avail { text-align: left; }
-  .hero__center-inner { font-size: clamp(3.4rem, 26vw, 9rem); }
+  .hero__center-inner { font-size: clamp(3rem, 19vw, 8rem); }
   .hero__foot { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
 
-  /* keep only the four corner satellites on small screens */
+  /* keep only the four corner satellites (and their lines) on small screens */
   .hero__sat { font-size: 0.66rem; letter-spacing: 0.1em; }
   .hero__sat:not(.hero__sat--corner) { display: none; }
+  .hero__lines line:not([data-corner]) { display: none; }
 
   .work__link { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.4rem 0 1.6rem; }
   .work__index { order: -1; }

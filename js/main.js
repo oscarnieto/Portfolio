@@ -252,6 +252,21 @@ function heroIntro() {
       stagger: 0.045,
     }, i * 0.12);
   });
+  // only rendered lines (mobile hides the non-corner ones)
+  const lines = [...document.querySelectorAll(".hero__lines line")]
+    .filter((ln) => getComputedStyle(ln).display !== "none");
+  if (lines.length) {
+    lines.forEach((ln) => {
+      const len = ln.getTotalLength();
+      gsap.set(ln, { strokeDasharray: len, strokeDashoffset: len });
+    });
+    tl.to(lines, {
+      strokeDashoffset: 0,
+      duration: 0.9,
+      stagger: 0.05,
+      ease: "power2.out",
+    }, 0.25);
+  }
   if (document.querySelector(".hero__sat-inner")) {
     tl.from(".hero__sat-inner", {
       autoAlpha: 0,
@@ -259,7 +274,7 @@ function heroIntro() {
       filter: "blur(12px)",
       duration: 1.0,
       stagger: { each: 0.06, from: "random" },
-    }, 0.4);
+    }, 0.45);
   }
   tl.from("[data-intro]", {
     y: 24,

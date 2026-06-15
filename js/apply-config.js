@@ -81,9 +81,12 @@
 
   /* ---------- hero / preloader ---------- */
   if (cfg.hero) {
-    // central word
+    // central word (data-text feeds the glitch ghost layers)
     const center = q(".hero__center-inner");
-    if (center && cfg.hero.line1) center.textContent = cfg.hero.line1;
+    if (center && cfg.hero.line1) {
+      center.textContent = cfg.hero.line1;
+      center.setAttribute("data-text", cfg.hero.line1);
+    }
     setText(".preloader__name", [cfg.hero.line1, cfg.hero.line2].filter(Boolean).join(" "));
     setHTML(".hero__role", nl2br(cfg.hero.role));
     setHTML(".hero__avail", `<span class="dot dot--live" aria-hidden="true"></span> ${nl2br(cfg.hero.avail)}`);
@@ -100,7 +103,8 @@
         [46, 88, 0.8, false],   [85, 74, 1.1, true],   [70, 27, 0.95, false],
         [29, 70, 0.85, false],  [62, 82, 1.0, false],  [33, 30, 0.75, false]
       ];
-      sats.innerHTML = cfg.hero.words.slice(0, POS.length).map((w, i) => {
+      const used = cfg.hero.words.slice(0, POS.length);
+      sats.innerHTML = used.map((w, i) => {
         const [l, t, depth, corner] = POS[i];
         const delay = (Math.random() * 2).toFixed(2);
         const dur = (4 + Math.random() * 3).toFixed(2);
@@ -110,6 +114,17 @@
           `<span class="hero__sat-label" style="animation-delay:-${delay}s;animation-duration:${dur}s">${esc(w)}</span>` +
           `</span></span>`;
       }).join("");
+
+      // thin lines from the centre out to each satellite word
+      const stage = sats.closest(".hero__stage");
+      if (stage && !stage.querySelector(".hero__lines")) {
+        const lines = used.map((w, i) => {
+          const [l, t, , corner] = POS[i];
+          return `<line x1="50" y1="50" x2="${l}" y2="${t}"${corner ? ' data-corner="1"' : ""}></line>`;
+        }).join("");
+        stage.insertAdjacentHTML("afterbegin",
+          `<svg class="hero__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>`);
+      }
     }
   }
 
