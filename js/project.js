@@ -246,6 +246,88 @@
   document.getElementById("nextLink").href = `project.html?p=${data.next}`;
 
   /* ----------------------------------------------------------
+     Lightbox — click any visual to open it large
+     ---------------------------------------------------------- */
+  (function lightbox() {
+    const frames = [...document.querySelectorAll(".pcase-visual__frame")];
+    if (!frames.length) return;
+
+    const box = document.createElement("div");
+    box.className = "lightbox";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Imagen ampliada");
+    box.hidden = false;
+    box.innerHTML =
+      '<button class="lightbox__close" aria-label="Cerrar">✕</button>' +
+      '<button class="lightbox__nav lightbox__nav--prev" aria-label="Anterior">‹</button>' +
+      '<button class="lightbox__nav lightbox__nav--next" aria-label="Siguiente">›</button>' +
+      '<div class="lightbox__stage"><div class="lightbox__media" id="lbMedia"></div>' +
+      '<p class="lightbox__caption" id="lbCaption"></p></div>';
+    document.body.appendChild(box);
+
+    const media = box.querySelector("#lbMedia");
+    const caption = box.querySelector("#lbCaption");
+    let current = -1;
+
+    function render(i) {
+      const frame = frames[i];
+      const img = frame.querySelector("img");
+      const svg = frame.querySelector("svg");
+      media.innerHTML = "";
+      if (img) {
+        const big = new Image();
+        big.src = img.src;
+        big.alt = img.alt;
+        media.appendChild(big);
+      } else if (svg) {
+        media.appendChild(svg.cloneNode(true));
+      }
+      const fig = frame.closest("figure");
+      const cap = fig && fig.querySelector(".pcase-caption span");
+      caption.textContent = cap ? cap.textContent : "";
+    }
+
+    function open(i) {
+      current = i;
+      render(i);
+      box.classList.add("is-open");
+      document.body.classList.add("lb-open");
+      document.documentElement.style.overflow = "hidden";
+      if (lenis) lenis.stop();
+    }
+    function close() {
+      box.classList.remove("is-open");
+      document.body.classList.remove("lb-open");
+      document.documentElement.style.overflow = "";
+      if (lenis) lenis.start();
+    }
+    function step(dir) { open((current + dir + frames.length) % frames.length); }
+
+    frames.forEach((frame, i) => {
+      frame.setAttribute("role", "button");
+      frame.setAttribute("tabindex", "0");
+      frame.setAttribute("aria-label", "Ampliar imagen");
+      frame.setAttribute("data-cursor", "view");
+      frame.addEventListener("click", () => open(i));
+      frame.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); }
+      });
+    });
+
+    box.querySelector(".lightbox__close").addEventListener("click", close);
+    box.querySelector(".lightbox__nav--prev").addEventListener("click", () => step(-1));
+    box.querySelector(".lightbox__nav--next").addEventListener("click", () => step(1));
+    box.addEventListener("click", (e) => { if (e.target === box) close(); });
+    document.addEventListener("keydown", (e) => {
+      if (!box.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+    });
+  })();
+
+  /* ----------------------------------------------------------
      Clock
      ---------------------------------------------------------- */
   function tickClock() {

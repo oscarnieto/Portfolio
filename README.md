@@ -34,6 +34,8 @@ and each project's case study content and artwork palette.
 - Each case study's seven image slots accept an uploaded file (auto-resized to
   1600px JPEG and embedded in the config) or a URL/repo path (e.g. `img/foto.jpg`),
   with editable captions; empty slots fall back to the generated SVG artwork.
+- Clicking any case-study visual opens it large in a lightbox (keyboard: arrows
+  to navigate, Esc to close; click backdrop or ✕ to dismiss).
 
 The site reads `data/site-config.js` at load (`js/apply-config.js` applies it),
 so the HTML always carries sensible defaults even without configuration.
