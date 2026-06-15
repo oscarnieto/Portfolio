@@ -83,14 +83,14 @@ let heroVisible = true;
 
 (function initHeroScene() {
   if (FLAGS.shader === false) {
-    canvas.style.background = "radial-gradient(120% 90% at 70% 10%, #1d2410 0%, #0e0e0c 60%)";
+    canvas.style.background = "radial-gradient(120% 90% at 25% 20%, #2a1b54 0%, #0a0a14 55%), radial-gradient(100% 90% at 80% 80%, #3a1038 0%, transparent 60%)";
     return;
   }
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: "low-power" });
   } catch (e) {
-    canvas.style.background = "radial-gradient(120% 90% at 70% 10%, #1d2410 0%, #0e0e0c 60%)";
+    canvas.style.background = "radial-gradient(120% 90% at 25% 20%, #2a1b54 0%, #0a0a14 55%), radial-gradient(100% 90% at 80% 80%, #3a1038 0%, transparent 60%)";
     return;
   }
 
@@ -151,34 +151,44 @@ let heroVisible = true;
         return v;
       }
 
+      // soft colour blob (metaball-style falloff)
+      float blob(vec2 uv, vec2 c, float r){
+        return smoothstep(r, 0.0, distance(uv, c));
+      }
+
       void main() {
         vec2 uv = gl_FragCoord.xy / uRes;
-        vec2 p = uv;
-        p.x *= uRes.x / uRes.y;
+        float t = uTime * 0.08;
 
-        float t = uTime * 0.06;
-        vec2 m = (uMouse - 0.5) * 0.45;
+        // organic warp so the gradients drift like liquid
+        vec2 warp = vec2(fbm(uv * 1.6 + t * 0.5), fbm(uv * 1.6 - t * 0.4 + 7.3));
+        vec2 p = uv + (warp - 0.5) * 0.18;
 
-        // domain-warped flow
-        vec2 q = vec2(fbm(p * 1.15 + t), fbm(p * 1.15 - t * 0.7 + 4.2));
-        float f = fbm(p * 1.3 + q * 1.4 + m);
+        // slowly orbiting colour centres; one tracks the pointer
+        vec2 c1 = vec2(0.28 + 0.16 * sin(t * 0.70),       0.32 + 0.18 * cos(t * 0.62));
+        vec2 c2 = vec2(0.76 + 0.15 * cos(t * 0.52 + 1.0), 0.36 + 0.16 * sin(t * 0.83));
+        vec2 c3 = vec2(0.52 + 0.20 * sin(t * 0.41 + 2.0), 0.74 + 0.16 * cos(t * 0.55));
+        vec2 c4 = vec2(0.42 + 0.18 * cos(t * 0.61 + 4.0), 0.56 + 0.20 * sin(t * 0.47));
+        c4 += (uMouse - 0.5) * 0.35;
 
-        vec3 ink   = vec3(0.055, 0.055, 0.047);
-        vec3 moss  = vec3(0.10, 0.16, 0.08);
-        vec3 acid  = vec3(0.83, 0.98, 0.24);
-        vec3 ember = vec3(1.0, 0.36, 0.22);
+        // deep night base with a blue cast
+        vec3 col = vec3(0.030, 0.032, 0.055);
+        col += vec3(0.34, 0.16, 0.64) * blob(p, c1, 0.46) * 0.95;  // violet
+        col += vec3(0.09, 0.27, 0.58) * blob(p, c3, 0.52) * 0.85;  // deep blue
+        col += vec3(0.90, 0.22, 0.46) * blob(p, c2, 0.40) * 0.75;  // magenta
+        col += vec3(0.62, 0.86, 0.26) * blob(p, c4, 0.30) * 0.38;  // acid (subtle)
 
-        vec3 col = ink;
-        col = mix(col, moss, smoothstep(-0.25, 0.65, f));
-        col = mix(col, acid * 0.85, smoothstep(0.42, 0.95, f) * 0.55);
+        // soft tone-map keeps the blend creamy rather than blown-out
+        col = col / (1.0 + col);
+        col = pow(col, vec3(0.86));
 
-        // ember pin-light near the mouse
-        float d = distance(uv, uMouse);
-        col = mix(col, ember, smoothstep(0.32, 0.0, d) * 0.10);
+        // vignette so the type stays legible
+        float vig = smoothstep(1.30, 0.30, length(uv - vec2(0.5, 0.52)));
+        col *= mix(0.52, 1.0, vig);
 
-        // vignette to keep edges quiet for the type
-        float vig = smoothstep(1.25, 0.35, length(uv - vec2(0.5, 0.55)));
-        col *= mix(0.55, 1.0, vig);
+        // faint grain to avoid banding on the gradients
+        float g = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+        col += (g - 0.5) * 0.015;
 
         gl_FragColor = vec4(col, 1.0);
       }
@@ -242,12 +252,21 @@ function heroIntro() {
       stagger: 0.045,
     }, i * 0.12);
   });
+  if (document.querySelector(".hero__sat-inner")) {
+    tl.from(".hero__sat-inner", {
+      autoAlpha: 0,
+      scale: 0.5,
+      filter: "blur(12px)",
+      duration: 1.0,
+      stagger: { each: 0.06, from: "random" },
+    }, 0.4);
+  }
   tl.from("[data-intro]", {
     y: 24,
     autoAlpha: 0,
     duration: 0.9,
     stagger: 0.08,
-  }, 0.55);
+  }, 0.6);
   return tl;
 }
 
@@ -293,6 +312,38 @@ if (reducedMotion) {
         onComplete: () => preloader.remove(),
       }, "-=0.15")
       .add(heroIntro(), "-=0.45");
+  }
+}
+
+/* ------------------------------------------------------------
+   Hero parallax — satellite words + centred word follow the pointer
+   ------------------------------------------------------------ */
+if (finePointer && !reducedMotion) {
+  const heroEl = document.getElementById("hero");
+  const sats = [...document.querySelectorAll(".hero__sat")].map((el) => {
+    const inner = el.querySelector(".hero__sat-inner");
+    return {
+      depth: parseFloat(el.dataset.depth) || 1,
+      x: gsap.quickTo(inner, "x", { duration: 1, ease: "power3" }),
+      y: gsap.quickTo(inner, "y", { duration: 1, ease: "power3" }),
+    };
+  });
+  const centerInner = document.querySelector(".hero__center-inner");
+  const cx = gsap.quickTo(centerInner, "x", { duration: 1.1, ease: "power3" });
+  const cy = gsap.quickTo(centerInner, "y", { duration: 1.1, ease: "power3" });
+
+  if (heroEl && (sats.length || centerInner)) {
+    heroEl.addEventListener("pointermove", (e) => {
+      const r = heroEl.getBoundingClientRect();
+      const nx = (e.clientX - r.left) / r.width - 0.5;
+      const ny = (e.clientY - r.top) / r.height - 0.5;
+      sats.forEach((s) => { s.x(nx * s.depth * 46); s.y(ny * s.depth * 46); });
+      cx(nx * -22); cy(ny * -14);
+    }, { passive: true });
+    heroEl.addEventListener("pointerleave", () => {
+      sats.forEach((s) => { s.x(0); s.y(0); });
+      cx(0); cy(0);
+    });
   }
 }
 

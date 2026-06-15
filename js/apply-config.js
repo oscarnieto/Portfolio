@@ -81,15 +81,36 @@
 
   /* ---------- hero / preloader ---------- */
   if (cfg.hero) {
-    const lines = qa("[data-split]");
-    if (lines[0]) lines[0].textContent = cfg.hero.line1;
-    if (lines[1]) lines[1].textContent = cfg.hero.line2;
-    setText(".preloader__name", `${cfg.hero.line1} ${cfg.hero.line2}`);
+    // central word
+    const center = q(".hero__center-inner");
+    if (center && cfg.hero.line1) center.textContent = cfg.hero.line1;
+    setText(".preloader__name", [cfg.hero.line1, cfg.hero.line2].filter(Boolean).join(" "));
     setHTML(".hero__role", nl2br(cfg.hero.role));
     setHTML(".hero__avail", `<span class="dot dot--live" aria-hidden="true"></span> ${nl2br(cfg.hero.avail)}`);
     setText(".hero__badge", cfg.hero.badge);
     setHTML(".hero__tag", nl2br(cfg.hero.tag));
     setText(".hero__scroll span", cfg.hero.scroll);
+
+    // satellite words orbiting the centre — positions [left%, top%, depth, corner?]
+    const sats = q("#heroSats");
+    if (sats && Array.isArray(cfg.hero.words)) {
+      const POS = [
+        [11, 17, 0.55, true],   [46, 9, 1.15, false],  [82, 17, 0.7, true],
+        [89, 45, 1.2, false],   [6, 43, 0.9, false],   [12, 76, 1.05, true],
+        [46, 88, 0.8, false],   [85, 74, 1.1, true],   [70, 27, 0.95, false],
+        [29, 70, 0.85, false],  [62, 82, 1.0, false],  [33, 30, 0.75, false]
+      ];
+      sats.innerHTML = cfg.hero.words.slice(0, POS.length).map((w, i) => {
+        const [l, t, depth, corner] = POS[i];
+        const delay = (Math.random() * 2).toFixed(2);
+        const dur = (4 + Math.random() * 3).toFixed(2);
+        return `<span class="hero__sat${corner ? " hero__sat--corner" : ""}" ` +
+          `style="left:${l}%;top:${t}%" data-depth="${depth}">` +
+          `<span class="hero__sat-inner">` +
+          `<span class="hero__sat-label" style="animation-delay:-${delay}s;animation-duration:${dur}s">${esc(w)}</span>` +
+          `</span></span>`;
+      }).join("");
+    }
   }
 
   /* ---------- marquee ---------- */

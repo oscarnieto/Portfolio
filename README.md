@@ -1,7 +1,7 @@
 # Oscar Nieto — Portfolio
 
 A fictional graphic-designer portfolio landing page. Dark editorial layout, Oswald (700, uppercase headlines) + Space Grotesk type,
-a Three.js domain-warped noise shader in the hero, and GSAP-driven scroll choreography.
+a Three.js animated mesh-gradient shader in the hero with a centred word and parallax satellite words, and GSAP-driven scroll choreography.
 
 ## Stack
 

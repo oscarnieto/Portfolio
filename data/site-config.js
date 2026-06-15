@@ -22,6 +22,7 @@ window.SITE_CONFIG = {
   hero: {
     line1: "OSCAR",
     line2: "NIETO",
+    words: ["Web design", "Development", "Vision", "Precision", "Future", "Branding", "Illustration", "UI", "UX"],
     role: "Graphic Designer\n& Art Director",
     avail: "Available for freelance\nSpring — Summer ’26",
     badge: "★ Folio ’26",
